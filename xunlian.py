@@ -120,7 +120,6 @@ input_dict = {
     "moderate_physical_activity": moderate_physical_activity,
     "light_physical_activity": light_physical_activity
 }
-
 if st.button("Predict Hearing Risk"):
     input_df = pd.DataFrame([input_dict])
     h2o_df = h2o.H2OFrame(input_df)
@@ -128,3 +127,10 @@ if st.button("Predict Hearing Risk"):
     pred_label = pred.as_data_frame().iloc[0,0]
     pred_prob = pred.as_data_frame().iloc[0,1] if pred.as_data_frame().shape[1] > 1 else None
     st.success(f"Prediction: {pred_label}, Probability: {pred_prob:.2%}" if pred_prob else f"Prediction: {pred_label}")
+    
+    # Show top 10 feature importance
+    st.markdown("#### Top 10 Most Important Factors for This Prediction")
+    varimp_df = model.varimp(use_pandas=True)
+    top10 = varimp_df.head(10)
+    st.dataframe(top10[['variable', 'relative_importance']])
+    st.bar_chart(top10.set_index('variable')['relative_importance'])
