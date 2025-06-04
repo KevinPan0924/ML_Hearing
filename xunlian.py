@@ -4,7 +4,7 @@ import pandas as pd
 
 # 1. Start H2O and load model
 h2o.init()
-model = h2o.load_model("XRT_1_AutoML_1_20250527_112911")  # Modify to your actual model path
+model = h2o.load_model("GBM_grid_1_AutoML_1_20250602_83146")  # Modify to your actual model path
 
 st.title("Online Hearing Risk Prediction")
 
